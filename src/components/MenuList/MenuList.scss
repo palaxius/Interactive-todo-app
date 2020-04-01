@@ -1,0 +1,51 @@
+.Menulist {
+  margin-bottom: 30px;
+  li {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    
+
+    &.active {
+      background: #ffffff;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+      border-radius: 4px;
+    }
+
+    span {
+      margin-left: 6px;
+    }
+
+    i {
+      display: inline-flex;
+     
+    }
+  }
+}
+
+.badge {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin-right: 8px;
+  position: relative;
+  left: 3px;
+
+  &--green {
+    background: #42B883;
+  }
+  &--blue {
+    background: #64C4ED;
+  }
+  &--pink {
+    background: #FFBBCC;
+  }
+  &--lightGreen {
+    background: #B6E6BD;
+  }
+  &--gray {
+    background: #C9D1D3;
+  }
+}
