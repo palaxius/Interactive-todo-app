@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import MenuList from "./components/MenuList/MenuList";
+import AddFolder from "./components/AddFolder/AddFolder";
+
+import DB from './assets/db.json'
 
 const items_1 = [
   {
@@ -34,12 +37,18 @@ const items_2 = [
   }
 ]
 
+// const popupHandler = () => {
+
+// }
+
 function App() {
+
   return (
     <div className="todo">
       <div className="todo__sidebar">
-        <MenuList items={items_1}/>
-        <MenuList items={items_2}/>
+        <MenuList items={items_1} />
+        <MenuList items={items_2} isRemovable/>
+        <AddFolder colors={DB.colors}/>
       </div>
       <div className="todo__tasks"></div>
     </div>

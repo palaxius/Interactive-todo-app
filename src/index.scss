@@ -32,5 +32,48 @@ code {
     border-right: 1px solid #f1f1f1;
     padding: 60px 20px;
   }
+}
 
+.list-btn {
+  opacity: 0.4;
+  transition: opacity 0.3s ease-in;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.field {
+  background: #ffffff;
+  border: 1px solid #efefef;
+  border-radius: 4px;
+  padding: 7px 8px;
+
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 0.15px;
+  color: #c7c7c7;
+  opacity: 0.8;
+
+  width: 100%;
+
+  &:focus {
+    border-color: #cccaca;
+  }
+}
+
+.btn {
+  color: #ffffff;
+  background: #4dd599;
+  border-radius: 4px;
+  padding: 10px 20px;
+  border: 0;
+  cursor: pointer;
+
+  &:hover {
+    background: darken($color: #4dd599, $amount: 7%);
+  }
+  &:active {
+    background: darken($color: #4dd599, $amount: 10%);
+  }
 }
