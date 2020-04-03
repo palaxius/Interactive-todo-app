@@ -4,12 +4,11 @@ import './AddFolder.scss'
 import Badge from '../Badge/Badge';
 import x from '../../assets/img/x.svg'
 
+const AddFolder = ({ colors, onAddList }) => {
 
-
-const AddFolder = ({ colors }) => {
-
-  const [popup, setPopup] = useState(true)
+  const [popup, setPopup] = useState(false)
   const [selectColor, setSelectColor] = useState(colors[0].id)
+  const [inputValue, setInputValue] = useState('')
   
   const item = [
     {
@@ -22,17 +21,52 @@ const AddFolder = ({ colors }) => {
     }    
   ]
 
+  const onClose = () => {
+    setPopup(false)
+    setInputValue('')
+    setSelectColor(colors[0].id)
+  }
+
+  const addListHandler = () => {
+    if (!inputValue) {
+      alert('Введите название списка')
+      return
+    }
+    
+    const color = colors.filter( c => c.id === selectColor)[0].name
+    onAddList( { id: Date.now(), name: inputValue, color })
+
+    setPopup(false)
+    setInputValue('')
+    setSelectColor(colors[0].id) 
+  }
+ 
   return (
     <>
       <MenuList items={item} onClick={() => setPopup(!popup)}/>
     { popup && 
       <div className="add-list__popup">
-      <img src={x} alt='close button' className="add-list__popup-close-btn" onClick={() => setPopup(false)}/>
-      <input type="text" placeholder='Название папки' className='field'/>
+      <img src={x} alt='close button' className="add-list__popup-close-btn" onClick={onClose}/>
+
+      <input 
+        type="text" 
+        placeholder='Название папки' 
+        className='field'
+        value={inputValue}
+        onChange={event => setInputValue(event.target.value)}
+      />
+
       <div className="add-list__popup-colors">      
-        { colors.map( color => <Badge onClick={() => setSelectColor(color.id)} color={color.name} key={color.id} className={selectColor === color.id && "active"}/>) }
+        { 
+          colors.map( color => 
+          <Badge 
+            onClick={() => setSelectColor(color.id)} 
+            color={color.name} key={color.id} 
+            className={selectColor === color.id && "active"} 
+          />) 
+        }
       </div>      
-      <button className="btn">Добавить</button>       
+      <button className="btn" onClick={addListHandler}>Добавить</button>       
       </div>
     }
 

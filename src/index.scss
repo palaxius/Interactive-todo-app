@@ -25,6 +25,7 @@ code {
   transform: translate(-50%, -50%);
   box-shadow: 1px 2px 20px #f3f3f3;
   font-size: 14px;
+  display: flex;
   &__sidebar {
     background: #f4f6f8;
     width: 200px;
@@ -33,6 +34,7 @@ code {
     padding: 60px 20px;
   }
 }
+ 
 
 .list-btn {
   opacity: 0.4;
@@ -52,7 +54,6 @@ code {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: 0.15px;
-  color: #c7c7c7;
   opacity: 0.8;
 
   width: 100%;

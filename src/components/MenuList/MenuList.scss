@@ -6,7 +6,28 @@
     padding: 10px 12px;
     cursor: pointer;
     margin-bottom: 2px;
+    transition: opacity 0.3s ease-in;
+    position: relative;
+
+    img {
+      position: absolute;
+      right: 9px;
+      opacity: 0;    
+    }
+
     
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.6);
+
+      img {
+        opacity: 0.6;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
 
     &.active {
       background: #ffffff;
@@ -16,12 +37,13 @@
 
     span {
       margin-left: 6px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
 
     i {
       display: inline-flex;
-     
     }
   }
 }
-
