@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MenuList from "./components/MenuList/MenuList";
 import AddFolder from "./components/AddFolder/AddFolder";
-
-import DB from "./assets/db.json";
 import Tasks from "./components/Tasks/Tasks";
+import Axios from "axios";
 
-const items_1 = [
+const allTasks = [
   {
     name: "Все задачи",
     icon: (
@@ -22,39 +21,50 @@ const items_1 = [
         />
       </svg>
     ),
-    active: true
-  }
+    active: true,
+  },
 ];
 
 function App() {
-  const initialState = DB.lists.map(item => {
-    item.color = DB.colors.filter(color => color.id === item.colorId)[0].name;
-    return item;
-  });
+  const [lists, setLists] = useState(null);
+  const [colors, setColors] = useState(null);
 
-  const [lists, setLists] = useState(initialState);
+  useEffect(() => {
+    Axios.get("http://localhost:3001/lists?_expand=color&_embed=tasks").then(({ data }) => {
+      setLists(data);
+    });
+    Axios.get("http://localhost:3001/colors").then(({ data }) => {
+      setColors(data);
+    });
+  }, []);
 
-  const onAddList = obj => {
+  const onAddList = (obj) => {
     console.log("Added new list: ", obj);
-
     const newList = [...lists, obj];
-
     setLists(newList);
   };
 
-  const onRemoveHandler = item => {
-    const newList = [...lists].filter;
-    console.log(item);
+  const onRemoveHandler = (id) => {
+    const newList = lists.filter((item) => item.id !== id);
+    setLists(newList);
   };
 
   return (
     <div className="todo">
       <div className="todo__sidebar">
-        <MenuList items={items_1} />
-        <MenuList items={lists} isRemovable onRemove={onRemoveHandler} />
-        <AddFolder onAddList={onAddList} colors={DB.colors} />
+        <MenuList items={allTasks} />
+        {lists ? (
+          <MenuList items={lists} isRemovable onRemove={onRemoveHandler} />
+        ) : (
+          <p>Loading...</p>
+        )}
+        <AddFolder onAddList={onAddList} colors={colors} />
       </div>
-      <Tasks />
+      {lists 
+        ? <Tasks list={lists[1]}/> 
+        : <p>Loading...</p>
+      }
+      
     </div>
   );
 }
