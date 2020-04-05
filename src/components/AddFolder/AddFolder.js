@@ -61,24 +61,29 @@ const AddFolder = ({ colors, onAddList }) => {
       return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     Axios.post("http://localhost:3001/lists", {
       name: inputValue,
       colorId: selectColor,
-    }).then(({ data }) => {
-      const color = colors.filter((c) => c.id === selectColor)[0].name;
-      const listObj = {
-        ...data,
-        color: {
-          name: color,
-        },
-      };
-      onAddList(listObj);
-      onClose();
-    }).finally(() => {
-      setLoading(false)
     })
+      .then(({ data }) => {
+        const color = colors.filter((c) => c.id === selectColor)[0].name;
+        const listObj = {
+          ...data,
+          color: {
+            name: color,
+          },
+        };
+        onAddList(listObj);
+        onClose();
+      })
+      .catch(() => {
+        alert("Ошибка при добавлении нового списка!");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -112,8 +117,7 @@ const AddFolder = ({ colors, onAddList }) => {
             ))}
           </div>
           <button className="btn" onClick={addListHandler}>
-          {isLoading ? "Добавление..." : "Добавить"}
-            
+            {isLoading ? "Добавление..." : "Добавить"}
           </button>
         </div>
       )}

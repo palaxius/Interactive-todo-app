@@ -1,17 +1,29 @@
 import React from "react";
 import "./Tasks.scss";
 import editSvg from "../../assets/img/edit.svg";
+import AddNewTask from "./AddNewTask/AddNewTask";
 
-const Tasks = ({ list }) => {
+const Tasks = ({ list, onEdit, onAddTask }) => {
+  const onEditTitle = () => {
+    const newTitle = window.prompt(
+      "Введите новое названия для папки",
+      list.name
+    );
+
+    if (newTitle) {
+      onEdit(list.id, newTitle);
+    }
+  };
   return (
     <div className="todo__tasks">
       <div className="tasks">
         <h2 className="tasks__title">
           {list.name}
-          <img src={editSvg} alt="edit" />
+          <img src={editSvg} alt="edit" onClick={onEditTitle} />
         </h2>
 
         <div className="tasks__items">
+          {!list.tasks.length && <h2>Задачи отсутствуют</h2>}
           {list.tasks.map((task) => {
             return (
               <div className="tasks__items-row" key={task.id}>
@@ -40,6 +52,7 @@ const Tasks = ({ list }) => {
             );
           })}
         </div>
+        <AddNewTask list={list} onAddTask={onAddTask}/>
       </div>
     </div>
   );

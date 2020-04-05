@@ -28,18 +28,20 @@ const allTasks = [
 function App() {
   const [lists, setLists] = useState(null);
   const [colors, setColors] = useState(null);
+  const [activeFolder, setActiveFolder] = useState(null);
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/lists?_expand=color&_embed=tasks").then(({ data }) => {
-      setLists(data);
-    });
+    Axios.get("http://localhost:3001/lists?_expand=color&_embed=tasks").then(
+      ({ data }) => {
+        setLists(data);
+      }
+    );
     Axios.get("http://localhost:3001/colors").then(({ data }) => {
       setColors(data);
     });
   }, []);
 
   const onAddList = (obj) => {
-    console.log("Added new list: ", obj);
     const newList = [...lists, obj];
     setLists(newList);
   };
@@ -49,22 +51,61 @@ function App() {
     setLists(newList);
   };
 
+  const onClickItemHandler = (item) => {
+    setActiveFolder(item);
+  };
+
+  const onEditHandler = (id, newTitle) => {
+    console.log(id, newTitle);
+    const newLists = [...lists];
+    newLists[id - 1].name = newTitle;
+    setLists(newLists);
+    Axios.patch("http://localhost:3001/lists/" + id, {
+      name: newTitle,
+    }).catch(() => {
+      alert("Не удалось обновить название списка");
+    });
+  };
+
+  const addTaskHandler = (listId, newTask) => {
+    const newList = lists.map((item) => {
+      if (item.id === listId) {
+        item.tasks = [...item.tasks, newTask];
+      }
+      return item;
+    });
+    setLists(newList);
+
+
+    // const newLists = [...lists];
+    // newLists[listId - 1].tasks.push(newTask);
+    // setLists(newLists);
+  };
+
   return (
     <div className="todo">
       <div className="todo__sidebar">
         <MenuList items={allTasks} />
         {lists ? (
-          <MenuList items={lists} isRemovable onRemove={onRemoveHandler} />
+          <MenuList
+            items={lists}
+            isRemovable
+            onRemove={onRemoveHandler}
+            onClickItem={onClickItemHandler}
+            activeFolder={activeFolder}
+          />
         ) : (
           <p>Loading...</p>
         )}
         <AddFolder onAddList={onAddList} colors={colors} />
       </div>
-      {lists 
-        ? <Tasks list={lists[1]}/> 
-        : <p>Loading...</p>
-      }
-      
+      {lists && activeFolder && (
+        <Tasks
+          list={activeFolder}
+          onEdit={onEditHandler}
+          onAddTask={addTaskHandler}
+        />
+      )}
     </div>
   );
 }

@@ -77,4 +77,8 @@ code {
   &:active {
     background: darken($color: #4dd599, $amount: 10%);
   }
+
+  &:disabled {
+    background: #d8d8d8;
+  }
 }
