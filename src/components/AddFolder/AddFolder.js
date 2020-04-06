@@ -68,12 +68,11 @@ const AddFolder = ({ colors, onAddList }) => {
       colorId: selectColor,
     })
       .then(({ data }) => {
-        const color = colors.filter((c) => c.id === selectColor)[0].name;
+        const color = colors.filter((c) => c.id === selectColor)[0];
         const listObj = {
           ...data,
-          color: {
-            name: color,
-          },
+          color,
+          tasks: []
         };
         onAddList(listObj);
         onClose();

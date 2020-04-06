@@ -15,6 +15,10 @@ const AddNewTask = ({ list, onAddTask }) => {
   };
 
   const addTask = () => {
+    if (!inputValue) {
+      alert("Введите название задачи!");
+      return;
+    }
     const newTask = {
       listId: list.id,
       text: inputValue,

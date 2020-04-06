@@ -1,9 +1,13 @@
 .todo__tasks {
   flex: 1;
   padding: 60px;
+  overflow: auto;
 }
 
 .tasks {
+  &:not(:last-of-type) {
+    margin-bottom: 40px;
+  }
   &__title {
     font-family: Montserrat;
     font-style: normal;
@@ -42,7 +46,39 @@
       display: flex;
       align-items: center;
 
-      input {
+      &:hover &-actions {
+        opacity: 1;
+      }
+
+      &-actions {
+        display: flex;
+        opacity: 0;
+        transition: opacity 0.15s ease-in;
+
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          background-color: lighten(#f4f6f8, 2%);
+          border-radius: 6px;
+          margin-left: 5px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: darken(#f4f6f8, 2%);
+          }
+          svg {
+            opacity: 0.8;
+            path {
+              fill: #3b3939;
+            }
+          }
+        }
+      }
+
+      p {
         margin-left: 15px;
         border: 0;
         font-size: 16px;
@@ -100,4 +136,8 @@
       }
     }
   }
+}
+
+a {
+  text-decoration: none;
 }
